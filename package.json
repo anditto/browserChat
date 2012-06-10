@@ -1,0 +1,9 @@
+{
+  "name": "chatApp",
+  "version": "0.0.1",
+  "dependencies": {
+    "express"  : "2.5.9",
+    "jade"     : "0.26.1",
+    "socket.io": "0.9.6"
+  }
+}
