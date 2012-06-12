@@ -2,7 +2,7 @@ var express = require('express'),
     app = express.createServer(),
     util = require('util'),
     fs = require('fs'),
-    io = require('socket.io'),
+    io = require('socket.io').listen(app), // Socket.io receiving and processing messages
     jade = require('jade');
 
 /* Makes static files like js and css usable */
@@ -21,25 +21,37 @@ app.get('/', function(req,res) {
   util.pump(rs,res);
 });
 
-/* Socket.io receiving and processing messages */
-var socket = io.listen(app);
+/* Heroku configuration */
+io.configure(function() {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
+});
 
-socket.on('connection', function(client) {
+io.sockets.on('connection', function(socket) {
   var username;
 
-  client.send('Welcome to the Chat Server!');
-  client.send('Input username: ');
+  socket.send('> Welcome to the Chat Server!');
+  socket.send('> Input username: ');
 
-  client.on('message', function(message) {
+  socket.on('message', function(message) {
     if (!username){
       username = message;
-      client.send('Welcome, ' + username + '!');
+      socket.send('> Welcome, ' + username + '!');
       return;
     }
-    feedback = "" + username + " sent: " + message;
-    client.send(feedback);
-    client.broadcast.send(feedback);
+    feedback = "> " + username + " sent: " + message;
+    io.sockets.emit('message', feedback);
+    console.log(username + " wrote: " + message);
+  });
+
+  /* Not yet implemented */
+  socket.on('disconnect', function() {
+    io.sockets.emit('> User disconnected.');
+    console.log('User disconnected.');
   });
 });
 
-app.listen(3000);
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+  console.log("Listening on port " + port);
+});
