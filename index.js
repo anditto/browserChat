@@ -9,23 +9,23 @@ var express = require('express'),
 app.use('/public', express.static(__dirname + '/public'));
 
 /* Sets jade template as engine and /views as template folder */
-// Not yet implemented
+//TODO Not yet implemented
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
 /* Main Page */
 app.get('/', function(req,res) {
   console.log("GET / accessed.");
-  //res.sendfile(__dirname + '/views/index.html');
-  var rs = fs.createReadStream(__dirname + '/views/index.html');
-  util.pump(rs,res);
+  res.sendfile(__dirname + '/views/index.html');
 });
 
 /* Room */
 app.get('/room/:id', function(req,res) {
   var id = req.params.id;
+
+  var rs = fs.createReadStream(__dirname + '/views/room.html');
+  util.pump(rs,res);
   console.log("GET /room/" + id + " is accessed.");
-  res.sendfile(__dirname + '/views/room.html');
 });
 
 /* Error page */
@@ -57,7 +57,8 @@ io.sockets.on('connection', function(socket) {
     console.log(username + " wrote: " + message);
   });
 
-  /* Not yet implemented */
+  /* On connection disconnect */
+  //TODO Not yet implemented
   socket.on('disconnect', function() {
     io.sockets.emit('> User disconnected.');
     console.log('User disconnected.');

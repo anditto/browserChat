@@ -19,10 +19,10 @@ $(document).ready(function() {
                             switch(command) {
                               case "/img":
                                 msgParts = message.split(/http/); //Get the http://something as an img src
-                                data = data + '<img src="http'+ msgParts[msgParts.length-1] +'" />';
+                                data = '<img src="http'+ msgParts[msgParts.length-1] +'" />';
                                 break;
                               case "/trollFace":
-                                data = data + '<img src="http://25.media.tumblr.com/avatar_6feb8634e3d0_128.png" />';
+                                data = '<img src="http://25.media.tumblr.com/avatar_6feb8634e3d0_128.png" />';
                                 break
                               default:
                                 break;
