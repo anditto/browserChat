@@ -21,6 +21,19 @@ app.get('/', function(req,res) {
   util.pump(rs,res);
 });
 
+/* Room */
+app.get('/room/:id', function(req,res) {
+  var id = req.params.id;
+  console.log("GET /room/" + id + " is accessed.");
+  res.sendfile(__dirname + '/views/room.html');
+});
+
+/* Error page */
+app.get('*', function(req,res) {
+  console.log("Error Page is accessed.");
+  res.sendfile(__dirname + '/views/error.html');
+});
+
 /* Heroku configuration */
 io.configure(function() {
   io.set("transports", ["xhr-polling"]);
@@ -30,7 +43,7 @@ io.configure(function() {
 io.sockets.on('connection', function(socket) {
   var username;
 
-  socket.send('> Welcome to the Chat Server!');
+  socket.send('> Welcome to the Chat Room!');
   socket.send('> Input username: ');
 
   socket.on('message', function(message) {
