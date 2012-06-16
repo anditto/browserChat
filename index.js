@@ -19,31 +19,29 @@ app.get('/', function(req,res) {
   res.sendfile(__dirname + '/views/index.html');
 });
 
-/* Room */
-app.get('/room/:id', function(req,res) {
-  var id = req.params.id;
-
-  var rs = fs.createReadStream(__dirname + '/views/room.html');
-  util.pump(rs,res);
-  console.log("GET /room/" + id + " is accessed.");
-});
-
-/* Error page */
-app.get('*', function(req,res) {
-  console.log("Error Page is accessed.");
-  res.sendfile(__dirname + '/views/error.html');
-});
-
 /* Heroku configuration */
 io.configure(function() {
   io.set("transports", ["xhr-polling"]);
   io.set("polling duration", 10);
 });
 
+/* Room */
+var id = null;
+app.get('/room/:id', function(req,res) {
+  id = req.params.id;
+
+  var rs = fs.createReadStream(__dirname + '/views/room.html');
+  util.pump(rs,res);
+  console.log("GET /room/" + id + " is accessed.");
+});
+
 io.sockets.on('connection', function(socket) {
   var username;
 
-  socket.send('> Welcome to the Chat Room!');
+  if (!id) {
+    return;
+  }
+  socket.send('> Welcome to the Chat Room #' + id + '!');
   socket.send('> Input username: ');
 
   socket.on('message', function(message) {
@@ -52,17 +50,26 @@ io.sockets.on('connection', function(socket) {
       socket.send('> Welcome, ' + username + '!');
       return;
     }
+    socket.join('room' + id);
     feedback = "> " + username + " sent: " + message;
-    io.sockets.emit('message', feedback);
+    io.sockets.in('room' + id).emit('message', feedback);
     console.log(username + " wrote: " + message);
   });
 
   /* On connection disconnect */
   //TODO Not yet implemented
   socket.on('disconnect', function() {
+    socket.leave('room' + id);
     io.sockets.emit('> User disconnected.');
     console.log('User disconnected.');
   });
+});
+
+
+/* Error page */
+app.get('*', function(req,res) {
+  console.log("Error Page is accessed.");
+  res.sendfile(__dirname + '/views/error.html');
 });
 
 var port = process.env.PORT || 3000;
