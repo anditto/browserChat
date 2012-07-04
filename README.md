@@ -9,3 +9,5 @@ A simple chat server on top of the following technologies:
 
 This is an extension of Pedro Teixeira's tutorial on node.js, found at:
 http://nodetuts.com/tutorials/7-embracing-all-with-socketio.html#video
+
+Changed!
