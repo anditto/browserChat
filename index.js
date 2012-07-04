@@ -19,12 +19,6 @@ app.get('/', function(req,res) {
   res.sendfile(__dirname + '/views/index.html');
 });
 
-/* Room */
-app.get('/room/:id', function(req,res) {
-  var roomId = req.params.id;
-  console.log("GET /room/" + roomId + " is accessed.");
-});
-
 /* Heroku configuration */
 io.configure(function() {
   io.set("transports", ["xhr-polling"]);
