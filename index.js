@@ -15,14 +15,15 @@ app.set('views', __dirname + '/views');
 
 /* Main Page */
 app.get('/', function(req,res) {
-  console.log("GET / accessed.");
+  console.log("GET / is accessed.");
   res.sendfile(__dirname + '/views/index.html');
 });
 
-/* Heroku configuration */
-io.configure(function() {
-  io.set("transports", ["xhr-polling"]);
-  io.set("polling duration", 10);
+/* Random Room */
+app.get('/random', function(req,res) {
+  console.log("GET /random is accessed");
+  random_room = Math.floor(Math.random() * (10000)) + 1;
+  res.redirect('/room/' + random_room);
 });
 
 /* Room */
@@ -33,6 +34,12 @@ app.get('/room/:id', function(req,res) {
   var rs = fs.createReadStream(__dirname + '/views/room.html');
   util.pump(rs,res);
   console.log("GET /room/" + id + " is accessed.");
+});
+
+/* Heroku configuration */
+io.configure(function() {
+  io.set("transports", ["xhr-polling"]);
+  io.set("polling duration", 10);
 });
 
 io.sockets.on('connection', function(socket) {
