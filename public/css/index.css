@@ -35,4 +35,15 @@ body {
 a {
   text-decoration: none;
   color: green;
+  font-family: 'VT323', cursive;
+}
+#leftbutton {
+  position: absolute;
+  margin: auto;
+  width: 300px;
+}
+#rightbutton {
+  position: relative;
+  margin: auto;
+  width: 300px;
 }

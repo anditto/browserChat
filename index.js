@@ -14,8 +14,10 @@ app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
 /* Main Page */
+var main_page_accessed = null;
 app.get('/', function(req,res) {
   console.log("GET / is accessed.");
+  main_page_accessed = true;
   res.sendfile(__dirname + '/views/index.html');
 });
 

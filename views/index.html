@@ -3,24 +3,28 @@
   <head>
     <title>Chat</title>
     <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css' />
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/public/js/socket.js"></script>
     <link rel="stylesheet" type="text/css" href="/public/css/index.css" />
   </head>
   <body>
     <pre>
-__           .__            __ __________                                          
+ __           .__            __ __________                                          
  \ \     ____ |  |__ _____ _/  |\______   \_______  ______  _  ________ ___________ 
   \ \  _/ ___\|  |  \\__  \\   __\    |  _/\_  __ \/  _ \ \/ \/ /  ___// __ \_  __ \
   / /  \  \___|   Y  \/ __ \|  | |    |   \ |  | \(  <_> )     /\___ \\  ___/|  | \/
  /_/    \___  >___|  (____  /__| |______  / |__|   \____/ \/\_//____  >\___  >__|   
             \/     \/     \/            \/                          \/     \/       
     </pre>
-    <a href="/random"><pre>
-        ______________
-       /             /
-      /   Go to a   /
-     /   Random    /
-    /   Room      /
-   /_____________/
-    </pre></a>
+    > CLI-looking chat rooms in your browser.<br>
+    > Go Full-Screen for the full experience!<br>
+    > <br>
+    > Go to room # <br>
+    >
+    <div id="log"><ul></ul></div>
+    <div id="console">
+      <input type="text" id="entry" />
+    </div>
   </body>
 </html>
